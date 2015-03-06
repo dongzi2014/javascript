@@ -31,15 +31,20 @@ var DiogObj = {
         PublicDiog = document.createElement("div");
         PublicDiog.id="Public-diog";
         PublicDiog.innerHTML = '<div class="content"><div id="pop-title"><h3>提示信息</h3><a href="javascript:DiogObj.closeDiog();"  >关闭</a>\
-        </div><div id="info"><p>恭喜您获得了新年礼包哦！</p>\
+        </div><div id="info"><p id="DiogmsgChange">可以在这里设置提示信息哦！</p>\
             <a href="javascript:DiogObj.closeDiog();" >提交</a></div></div>';
         mask.onclick = function(){
             document.body.removeChild(mask);
             document.body.removeChild(PublicDiog);
         };
     },
-    'showDiog':function(){
+    'showDiog':function(Msg){
         document.body.appendChild(PublicDiog);
+        var msg = document.getElementById('DiogmsgChange');
+        if(Msg==undefined){
+        }else{
+           msg.innerHTML=Msg;
+        }
         PublicDiog.style.left=(kWidth-PublicDiog.offsetWidth)/2+"px";
         PublicDiog.style.top=(kHeight-PublicDiog.offsetHeight)/2+"px";
     },
