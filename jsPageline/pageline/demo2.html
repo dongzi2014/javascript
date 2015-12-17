@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>js——oop</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<script  type="text/javascript" >
+var Global = Global || {};
+$(function(){
+	Global.resultList = [
+		{'title':'标题一','create_time':'2014-7-10'},
+		{'title':'标题二','create_time':'2014-8-10'},
+		{'title':'标题三','create_time':'2014-10-14'},
+		{'title':'标题四','create_time':'2014-10-3'},
+		{'title':'标题五','create_time':'2014-2-8'},
+		{'title':'标题七','create_time':'2013-10-8'},
+		{'title':'标题八','create_time':'2013-3-8'},
+		{'title':'标题九','create_time':'2013-11-8'},
+		{'title':'标题十','create_time':'2013-9-8'},
+		{'title':'标题十一','create_time':'2013-6-8'},
+		{'title':'标题十二','create_time':'2013-5-8'},
+		{'title':'标题十三','create_time':'2013-4-8'},
+		{'title':'标题十四','create_time':'2013-3-8'},
+	];
+	Global.contTemp = '<li class="c">\
+					<strong class="w1">${data.title}</strong>\
+					<strong class="w2">${data.create_time}</strong>\
+				</li>';
+	Global.pageTemp = "<a href='javascript: pm.setPage(${pageNum})' class='pageNum'>${pageNum}</a>";
+	var PageManager = {
+		init : function(opt){
+			var instance = $.extend({}, this.instance);
+			instance.init(opt);
+			return instance;
+		},
+		instance: {
+			callback: [],
+			option: {
+				data: [],
+				curPage: -1,
+				pageSize: 5,
+				total: 0,
+				content_template: null,
+				contentCId: null,
+				page_template: null,
+				pageCId: null
+			},
+			init : function(opt){
+				$.extend(this.option, opt);
+				this.option.total = Math.ceil(this.option.data.length / this.option.pageSize);
+				this.setPage(1);
+				this.fillPage();
+			},
+			setPage: function(i){
+				if(i == this.option.curPage) return false;
+				var data = this.incision(i);
+				if(!data) return false;
+				this.option.curPage = i;
+				this.fillTemplate(data);
+				for(var n = 0; n != this.callback.length; n++){
+					this.callback[n].call(this, i);
+				}
+			},
+			next: function(){
+				this.setPage(this.option.curPage + 1);
+			},
+			pre: function(){
+				this.setPage(this.option.curPage - 1);
+			},
+			isChange: function(func){
+				this.callback.push(func);
+			},
+			incision: function(i){
+				var start = (i - 1) * this.option.pageSize;
+				if(this.option.data.length <= start || i < 1) return false;
+				return this.option.data.slice(start, start + this.option.pageSize);
+			},
+			fillTemplate: function(arr){
+				if(!this.option.content_template) return alert("template is undefined");
+				if(!this.option.contentCId) return alert("contentId is undefined");
+				var html = '';
+				for(var i = 0; i != arr.length; i++){
+					var data = arr[i];
+					var n = (this.option.curPage - 1) * this.option.pageSize + i + 1;
+					html += this.option.content_template.replace(/\$\{([^\}]+)\}/g, function($0, $1){
+						return eval($1);
+					});
+				}
+				$(this.option.contentCId).html(html);
+			},
+			fillPage: function(){
+				if(!this.option.page_template) return false;
+				if(!this.option.pageCId) return false;
+				var html = '';
+				for(var pageNum = 1; pageNum <= this.option.total; pageNum++){
+					html += this.option.page_template.replace(/\$\{([^\}]+)\}/g, function($0, $1){
+						return eval($1);
+					});
+				}
+				$(this.option.pageCId).html(html);
+			}
+		}
+	};
+	window.pm = PageManager.init({
+		data: Global.resultList,
+		contentCId: '.rankShow_bd',
+		content_template: Global.contTemp,
+		pageCId: '.rankShow_ft',
+		pageSize: 6,
+		page_template: Global.pageTemp
+	});
+	$($('.rankShow_ft .pageNum').removeClass('active')[0]).addClass('active');
+	$('.rankShow_ft').html('<a href="javascript: pm.pre();">上一页</a>' + $('.rankShow_ft').html() + '<a href="javascript: pm.next();">下一页</a>');
+	pm.isChange(function(i){
+		$($('.rankShow_ft .pageNum').removeClass('active')[i - 1]).addClass('active');
+	});
+});
+</script>
+<body>
+<ul id="namelist" style="height: 230px;" class="rankShow_bd lst-jpnr c">
+</ul>
+<div class="rankShow_ft" ></div>
+</body>
+</html>

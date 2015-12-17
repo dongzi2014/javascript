@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>js——oop</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<script  type="text/javascript" >
+
+var Global = Global || {};
+
+$(function(){
+	
+	var PageList = {
+		'init':function(opt){
+			//var instance = $.extend({},this.instance);
+			return {'datas':[{'title':'afd','create_time':'2014-5-12'}],'template':'<li>${data.title}</li>','contentId':'#namelist'};
+		},
+		'instance':{
+			'datas':[],
+			'template':null,
+			'contentId':null,
+		},
+		'show':function(){
+			var opts = this.instance.datas;
+			var temp = this.instance.template;
+			console.log(temp);
+			var html = '';
+			for(i=0;i<opts.length;i++){
+				var data = opts[i];
+				html += temp.replace(/\$\{([^\}]+)\}/g,function($0, $1){
+						return eval($1);
+				});
+			}
+			$(this.instance.contentId).html(html);	
+		}
+	};
+	Global.resultList = [
+	{'title':'标题一','create_time':'2014-7-10'},
+	{'title':'标题二','create_time':'2014-8-10'},
+	{'title':'标题三','create_time':'2014-10-14'},
+	{'title':'标题四','create_time':'2014-10-3'},
+	{'title':'标题五','create_time':'2014-2-8'},
+	{'title':'标题七','create_time':'2013-10-8'},
+	{'title':'标题八','create_time':'2013-3-8'},
+	{'title':'标题九','create_time':'2013-11-8'},
+	{'title':'标题十','create_time':'2013-9-8'},
+	{'title':'标题十一','create_time':'2013-6-8'},
+	{'title':'标题十二','create_time':'2013-5-8'},
+	{'title':'标题十三','create_time':'2013-4-8'},
+	{'title':'标题十四','create_time':'2013-3-8'},
+	];
+	Global.template = '<li>${data.title}</li>';
+	var inits = PageList.init({
+		datas:Global.resultList,
+		template:Global.template,
+		contentId:'#namelist',
+	});
+	console.log(inits);
+	PageList.show();
+	
+	/*var result  = $.extend({},{name:'dongzi',age:22},{name:'peter',sex:'man'});
+	console.log(result);*/
+	
+});
+</script>
+<body>
+
+<ul id="namelist" style="height: 230px;" class="rankShow_bd lst-jpnr c">
+</ul>
+
+<div class="rankShow_ft" ></div>
+
+</body>
+</html>

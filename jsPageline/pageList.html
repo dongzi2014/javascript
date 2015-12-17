@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>js 面向对象的分页</title>
+<script type="text/javascript" src="./pageline/jquery-1.7.2.min.js"></script>
+</head>
+<script type="text/javascript">
+var Global= Global || {};
+$(function(){
+	Global.resultList = [
+		{'title':'标题一','create_time':'2014-7-10'},
+		{'title':'标题二','create_time':'2014-8-10'},
+		{'title':'标题三','create_time':'2014-10-14'},
+		{'title':'标题四','create_time':'2014-10-3'},
+		{'title':'标题五','create_time':'2014-2-8'},
+		{'title':'标题七','create_time':'2013-10-8'},
+		{'title':'标题八','create_time':'2013-3-8'},
+		{'title':'标题九','create_time':'2013-11-8'},
+		{'title':'标题十','create_time':'2013-9-8'},
+		{'title':'标题十一','create_time':'2013-6-8'},
+		{'title':'标题十二','create_time':'2013-5-8'},
+		{'title':'标题十三','create_time':'2013-4-8'},
+		{'title':'标题十四','create_time':'2013-3-8'},
+	];
+	Global.contTemp = '<li>${data.title}--------${data.create_time}</li>';
+	Global.pageTemp = '	<span><a href="javascript:getPageList.prePage();" >上一页</a></span><span><a href="javascript:getPageList.nextPage()" >下一页</a></span>';
+	var getPageList = {
+		init:function(opt){
+			this.option = opt;
+			this.setPage(1);
+		},
+		option:{
+			data:[],
+			pagesize:4,
+			total:0,
+			curPage:-1,
+			content_template:null,
+			contentCid:null,
+			pageLineId:null,
+			page_template:null
+		},
+		setPage:function(n){
+			var datas = this.selectListData(n);
+			this.option.curPage = n;
+			this.showPageLine();
+			this.templateData(datas);
+		},
+		nextPage:function(){
+			this.setPage(this.option.curPage+1);
+		},
+		prePage:function(){
+			this.setPage(this.option.curPage-1);
+		},
+		selectListData(n){
+			var start = (n-1)*this.option.pagesize;
+			return this.option.data.slice(start,start+this.option.pagesize);
+		},
+		showPageLine(){
+			$("#"+this.option.pageLineId).html(this.option.page_template);
+		},
+		templateData:function(arr){
+			var htmlStr = '';
+			for(var i=0;i<arr.length;i++){
+				var data = arr[i];
+				htmlStr += this.option.content_template.replace(/\$\{([^\}]+)\}/g, function($0,$1){
+					return eval($1);
+				});
+			}
+			$("#"+this.option.contentCid).html(htmlStr);
+		}
+	};
+	window.getPageList = getPageList;
+	getPageList.init({
+		data:Global.resultList,
+		pagesize:5,
+		curPage:-1,
+		contentCid:'showContent',
+		content_template:Global.contTemp,
+		page_template:Global.pageTemp,
+		pageLineId:'showPage'
+	});
+});
+</script>
+<body>
+<div>
+	<ul id="showContent" >
+	<ul>
+</div>
+<div id="showPage" >
+</div>
+</body>
+</html>

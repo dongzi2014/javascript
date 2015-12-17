@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>返回</title>
+</head>
+<style>
+</style>
+<script type="text/javascript">
+function rebackFunc(id){
+	if(id!=1){
+		var num = id-1;
+		var div1 = document.getElementById('div'+num);
+		var div2 = document.getElementById('div'+id);
+		div1.style.display = 'block';
+		div2.style.display = 'none';
+	}else{
+		alert('已经是第一页了哦~');
+	}
+}
+</script>
+<body>
+<div style="display:none;" id="div1" >
+<a href="javascript:rebackFunc(1);"  >返回</>
+111afdadfasd
+</div>
+<div style="display:none;" id="div2" >
+<a href="javascript:rebackFunc(2);"  >返回</>
+222bbbbafdasf
+</div>
+<div style="display:block;" id="div3" >
+<a href="javascript:rebackFunc(3);"  >返回</>
+3333bbbbafdasf
+</div>
+</body>
+</html>

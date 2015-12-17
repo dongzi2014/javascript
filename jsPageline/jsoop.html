@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>js 面向对象的多种写法</title>
+</head>
+<script type="text/javascript">
+//方法一
+/*function Car(name,size){
+	this.name = name;
+	this.size = size;
+}
+Car.prototype.Bmw = function(){
+	return "我的车的名字叫"+this.name+",我的车型是"+this.size;
+}
+var BmwCar = new Car('宝马','SUV');
+$res = BmwCar.Bmw();*/
+
+var Mobile = {
+	init:{
+		price:"3000&",
+		brand:"iphone",
+	},
+	funs:function(){
+		alert(this.init.price);
+	}
+};
+Mobile.init;
+Mobile.funs();
+
+
+</script>
+<body>
+
+</body>
+</html>

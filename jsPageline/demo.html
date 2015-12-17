@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jquery获取下拉框里面的额值</title>
+</head>
+<script type="text/javascript" src="./jquery-1.7.2.min.js" ></script>
+<script type="text/javascript" >
+$(function(){
+	 //$("#ddlregtype").find("option:selected").text();
+	var proValue = $("#pro").find("option:selected").text();
+	console.log(proValue);
+});
+</script>
+<body>
+<div>
+	<select id="pro" name="provice" >
+		<option value="-1" >请选择</option>
+		<option value="2" >湖北</option>
+		<option value="3" selected="selected"  >广东</option>
+		<option value="4" >湖南</option>
+	</select>
+</div>
+</body>
+</html>

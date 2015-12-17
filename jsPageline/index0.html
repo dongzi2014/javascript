@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>动画效果</title>
+</head>
+<style>
+*{padding:0px;margin:0px;}
+#showSpan{background: #B08C8C;width:200px;height:200px;position:relative;top:0;filter:alpha:(opacity:30);}
+#showSpan span{text-align:center;width:30px;height:50px;background:#ccc;position:absolute;left:200px;top:75px;}
+</style>
+<script type="text/javascript" >
+window.onload = function(){
+	var div1 = document.getElementById('showSpan');
+	div1.onmouseover = function(){
+		startMove(100);
+	};
+	div1.onmouseout = function(){
+		startMove(30);
+	};
+}
+var timer = null;
+var opacity = 30;
+function startMove(iTarget){
+	clearInterval(timer);
+	var div1 = document.getElementById('showSpan');
+	timer = setInterval(function(){
+		var speed = 0;
+		if(opacity>iTarget){
+			speed = -5;
+		}else{
+			speed = 5;
+		}
+		if(opacity==iTarget){
+			clearInterval(timer);
+		}else{
+			opacity = opacity+speed;
+			//div1.style.left = div1.offsetLeft+speed+"px";
+			div1.style.filter = 'alpha(opacity:'+opacity+')';
+			div1.style.opacity = opacity/100;
+		}
+	},30);
+}
+/*function startMove(iTarget){
+	clearInterval(timer);
+	var div1 = document.getElementById('showSpan');
+	timer = setInterval(function(){
+		var speed = 0;
+		if(div1.offsetLeft>iTarget){
+			speed = -5;
+		}else{
+			speed = 5;
+		}
+		if(div1.offsetLeft==iTarget){
+			clearInterval(timer);
+		}else{
+			div1.style.left = div1.offsetLeft+speed+"px";
+		}
+	},30);
+}*/
+</script>
+<body>
+<div id="showSpan">
+	<span>显示</span>
+</div>
+</body>
+</html>
